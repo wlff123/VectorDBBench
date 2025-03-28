@@ -43,6 +43,7 @@ class DB(Enum):
     AliyunOpenSearch = "AliyunOpenSearch"
     MongoDB = "MongoDB"
     TiDB = "TiDB"
+    openGauss = "openGauss"
 
     @property
     def init_cls(self) -> type[VectorDB]:  # noqa: PLR0911, PLR0912, C901
@@ -146,6 +147,10 @@ class DB(Enum):
             from .tidb.tidb import TiDB
 
             return TiDB
+
+        if self == DB.openGauss:
+            from .openGauss.openGauss import openGauss
+            return openGauss
 
         if self == DB.Test:
             from .test.test import Test
@@ -258,6 +263,10 @@ class DB(Enum):
 
             return TiDBConfig
 
+        if self == DB.openGauss:
+            from .openGauss.config import openGaussConfig
+            return openGaussConfig
+
         if self == DB.Test:
             from .test.config import TestConfig
 
@@ -344,6 +353,10 @@ class DB(Enum):
             from .mariadb.config import _mariadb_case_config
 
             return _mariadb_case_config.get(index_type)
+
+        if self == DB.openGauss:
+            from .openGauss.config import _opengauss_case_config
+            return _opengauss_case_config.get(index_type)
 
         if self == DB.TiDB:
             from .tidb.config import TiDBIndexConfig
