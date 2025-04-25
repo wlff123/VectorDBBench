@@ -325,6 +325,18 @@ CaseConfigParamInput_IndexType_PgVector = CaseConfigInput(
     },
 )
 
+CaseConfigParamInput_IndexType_openGauss = CaseConfigInput(
+    label=CaseConfigParamType.IndexType,
+    inputHelp="Select Index Type",
+    inputType=InputType.Option,
+    inputConfig={
+        "options": [
+            IndexType.HNSW.value,
+            IndexType.IVFFlat.value,
+            IndexType.HNSWPQ.value,
+        ],
+    },
+)
 CaseConfigParamInput_IndexType_PgVectoRS = CaseConfigInput(
     label=CaseConfigParamType.IndexType,
     inputHelp="Select Index Type",
@@ -443,6 +455,15 @@ CaseConfigParamInput_maintenance_work_mem_PgVector = CaseConfigInput(
     },
 )
 
+CaseConfigParamInput_maintenance_work_mem_openGauss = CaseConfigInput(
+    label=CaseConfigParamType.maintenance_work_mem,
+    inputHelp="Recommended value: 1.33x the index size, not to exceed the available free memory."
+    "Specify in gigabytes. e.g. 8GB",
+    inputType=InputType.Text,
+    inputConfig={
+        "value": "8GB",
+    },
+)
 CaseConfigParamInput_max_parallel_workers_PgVector = CaseConfigInput(
     label=CaseConfigParamType.max_parallel_workers,
     displayLabel="Max parallel workers",
@@ -490,6 +511,53 @@ CaseConfigParamInput_EFConstruction_PgVector = CaseConfigInput(
     isDisplayed=lambda config: config[CaseConfigParamType.IndexType] == IndexType.HNSW.value,
 )
 
+CaseConfigParamInput_EFConstruction_openGauss = CaseConfigInput(
+    label=CaseConfigParamType.ef_construction,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 8,
+        "max": 1024,
+        "value": 256,
+    },
+    isDisplayed=lambda config: config[CaseConfigParamType.IndexType]
+    == IndexType.HNSW.value,
+)
+
+CaseConfigParamInput_EFConstruction_openGaussPQ = CaseConfigInput(
+    label=CaseConfigParamType.ef_construction,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 8,
+        "max": 1024,
+        "value": 256,
+    },
+    isDisplayed=lambda config: config[CaseConfigParamType.IndexType]
+    == IndexType.HNSWPQ.value,
+)
+
+CaseConfigParamInput_M_openGaussPQ = CaseConfigInput(
+    label=CaseConfigParamType.m,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 4,
+        "max": 64,
+        "value": 16,
+    },
+    isDisplayed=lambda config: config[CaseConfigParamType.IndexType]
+    == IndexType.HNSWPQ.value,
+)
+
+CaseConfigParamInput_HNSWEarlystopThreshold_openGaussPQ = CaseConfigInput(
+    label=CaseConfigParamType.hnsw_early_stop_threshold,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 160,
+        "max": 2147483647,
+        "value": 2147483647,
+    },
+    isDisplayed=lambda config: config[CaseConfigParamType.IndexType]
+    == IndexType.HNSWPQ.value,
+)
 
 CaseConfigParamInput_M_ES = CaseConfigInput(
     label=CaseConfigParamType.M,
@@ -760,7 +828,29 @@ CaseConfigParamInput_Lists_PgVector = CaseConfigInput(
     isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None) == IndexType.IVFFlat.value,
 )
 
+CaseConfigParamInput_Lists_openGauss = CaseConfigInput(
+    label=CaseConfigParamType.lists,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 1,
+        "max": 65536,
+        "value": 10,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None) == IndexType.IVFFlat.value,
+)
+
 CaseConfigParamInput_Probes_PgVector = CaseConfigInput(
+    label=CaseConfigParamType.probes,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 1,
+        "max": 65536,
+        "value": 1,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None) == IndexType.IVFFlat.value,
+)
+
+CaseConfigParamInput_Probes_openGauss = CaseConfigInput(
     label=CaseConfigParamType.probes,
     inputType=InputType.Number,
     inputConfig={
@@ -782,6 +872,53 @@ CaseConfigParamInput_EFSearch_PgVector = CaseConfigInput(
     isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None) == IndexType.HNSW.value,
 )
 
+CaseConfigParamInput_EFSearch_openGauss = CaseConfigInput(
+    label=CaseConfigParamType.ef_search,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 1,
+        "max": 2048,
+        "value": 256,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None)
+    == IndexType.HNSW.value,
+)
+
+CaseConfigParamInput_EFSearch_openGaussPQ = CaseConfigInput(
+    label=CaseConfigParamType.ef_search,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 1,
+        "max": 2048,
+        "value": 256,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None)
+    == IndexType.HNSWPQ.value,
+)
+
+CaseConfigParamInput_PQM_openGaussPQ = CaseConfigInput(
+    label=CaseConfigParamType.pq_m,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 1,
+        "max": 65535,
+        "value": 8,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None)
+    == IndexType.HNSWPQ.value,
+)
+
+CaseConfigParamInput_PQKSUB_openGaussPQ = CaseConfigInput(
+    label=CaseConfigParamType.pq_ksub,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 1,
+        "max": 256,
+        "value": 256,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None)
+    == IndexType.HNSWPQ.value,
+)
 
 CaseConfigParamInput_QuantizationType_PgVectoRS = CaseConfigInput(
     label=CaseConfigParamType.quantizationType,
@@ -1229,6 +1366,34 @@ PgVectorPerformanceConfig = [
     CaseConfigParamInput_quantized_fetch_limit_PgVector,
 ]
 
+openGaussLoadingConfig = [
+    CaseConfigParamInput_IndexType_openGauss,
+    CaseConfigParamInput_Lists_openGauss,
+    CaseConfigParamInput_m,
+    CaseConfigParamInput_EFConstruction_openGauss,
+    CaseConfigParamInput_M_openGaussPQ,
+    CaseConfigParamInput_EFConstruction_openGaussPQ,
+    CaseConfigParamInput_PQM_openGaussPQ,
+    CaseConfigParamInput_PQKSUB_openGaussPQ,
+    CaseConfigParamInput_EFSearch_openGaussPQ,
+    #CaseConfigParamInput_maintenance_work_mem_openGauss,
+    #CaseConfigParamInput_max_parallel_workers_openGauss,
+]
+openGaussPerformanceConfig = [
+    CaseConfigParamInput_IndexType_openGauss,
+    CaseConfigParamInput_m,
+    CaseConfigParamInput_EFConstruction_openGauss,
+    CaseConfigParamInput_EFSearch_openGauss,
+    CaseConfigParamInput_Lists_openGauss,
+    CaseConfigParamInput_Probes_openGauss,
+    CaseConfigParamInput_M_openGaussPQ,
+    CaseConfigParamInput_EFConstruction_openGaussPQ,
+    CaseConfigParamInput_PQM_openGaussPQ,
+    CaseConfigParamInput_PQKSUB_openGaussPQ,
+    CaseConfigParamInput_EFSearch_openGaussPQ,
+    #CaseConfigParamInput_maintenance_work_mem_PgVector,
+    #CaseConfigParamInput_max_parallel_workers_PgVector,
+]
 PgVectoRSLoadingConfig = [
     CaseConfigParamInput_IndexType_PgVectoRS,
     CaseConfigParamInput_m,
@@ -1367,6 +1532,10 @@ CASE_CONFIG_MAP = {
     DB.PgVector: {
         CaseLabel.Load: PgVectorLoadingConfig,
         CaseLabel.Performance: PgVectorPerformanceConfig,
+    },
+	DB.openGauss: {
+        CaseLabel.Load: openGaussLoadingConfig,
+        CaseLabel.Performance: openGaussPerformanceConfig,
     },
     DB.PgVectoRS: {
         CaseLabel.Load: PgVectoRSLoadingConfig,
