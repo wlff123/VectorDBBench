@@ -203,7 +203,7 @@ class openGaussHNSWConfig(openGaussIndexConfig):
         }
 
     def session_param(self) -> openGaussSessionCommands:
-        session_parameters = {"hnsw.ef_search": self.ef_search}
+        session_parameters = {"hnsw_ef_search": self.ef_search}
         return {
             "session_options": self._optionally_build_set_options(session_parameters)
         }
@@ -245,7 +245,7 @@ class openGaussHNSWPQConfig(openGaussIndexConfig):
         }
 
     def session_param(self) -> openGaussSessionCommands:
-        session_parameters = {"hnsw.ef_search": self.ef_search, "hnsw_earlystop_threshold": self.hnsw_earlystop_threshold}
+        session_parameters = {"hnsw_ef_search": self.ef_search, "hnsw_earlystop_threshold": self.hnsw_earlystop_threshold}
         return {
             "session_options": self._optionally_build_set_options(session_parameters)
         }
