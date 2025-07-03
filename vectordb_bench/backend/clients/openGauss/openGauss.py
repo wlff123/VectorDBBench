@@ -29,7 +29,7 @@ class openGauss(VectorDB):
         dim: int,
         db_config: openGaussConfigDict,
         db_case_config: openGaussIndexConfig,
-        collection_name: str = "pg_vector_collection",
+        collection_name: str = "openGauss_datavec_collection",
         drop_old: bool = False,
         **kwargs,
     ):

@@ -163,7 +163,7 @@ class openGaussIVFFlatConfig(openGaussIndexConfig):
         }
 
     def session_param(self) -> openGaussSessionCommands:
-        session_parameters = {"ivfflat.probes": self.probes}
+        session_parameters = {"ivfflat_probes": self.probes}
         return {
             "session_options": self._optionally_build_set_options(session_parameters)
         }
