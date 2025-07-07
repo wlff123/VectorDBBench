@@ -99,6 +99,7 @@ class CaseConfigParamType(Enum):
     pq_m = "pq_m"
     pq_ksub = "pq_ksub"
     hnsw_earlystop_threshold = "hnsw_earlystop_threshold"
+    enable_npu: "enable_npu"
 
 
 class CustomizedCase(BaseModel):

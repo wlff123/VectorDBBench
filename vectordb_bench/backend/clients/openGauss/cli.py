@@ -64,7 +64,7 @@ class openGaussTypedDict(CommonTypedDict):
     
 
 class openGaussIVFFlatTypedDict(openGaussTypedDict, IVFFlatTypedDict):
-    ...
+    enable_npu: Annotated[Optional[bool], click.option("--enable_npu", type=bool, help="enable_npu")]
 
 
 @cli.command()
@@ -88,7 +88,8 @@ def openGaussIVFFlat(
         db_case_config=openGaussIVFFlatConfig(
             metric_type=None,
             lists=parameters["lists"],
-            probes=parameters["probes"]
+            probes=parameters["probes"],
+            enable_npu=parameters["enable_npu"]
         ),
         **parameters,
     )

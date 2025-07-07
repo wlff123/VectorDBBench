@@ -141,6 +141,7 @@ class openGaussIVFFlatConfig(openGaussIndexConfig):
 
     lists: int | None
     probes: int | None
+    enable_npu: bool = False
     index: IndexType = IndexType.ES_IVFFlat
     maintenance_work_mem: Optional[str] = None
     max_parallel_workers: Optional[int] = None
@@ -163,7 +164,7 @@ class openGaussIVFFlatConfig(openGaussIndexConfig):
         }
 
     def session_param(self) -> openGaussSessionCommands:
-        session_parameters = {"ivfflat_probes": self.probes}
+        session_parameters = {"ivfflat_probes": self.probes, "enable_npu": self.enable_npu}
         return {
             "session_options": self._optionally_build_set_options(session_parameters)
         }
